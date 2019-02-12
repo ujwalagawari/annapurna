@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<jsp:include page="menu.jsp" />
 	<form action="/cart/submitAddress">
 		<h1>DELIVERY ADDRESS</h1>
 		Flat Number: <input type="number" name="houseNumber"><br>

@@ -38,14 +38,14 @@ public class AnnapurnaController {
 
 	@RequestMapping("/")
 	public String getAllRestaurants(Model model) {
-		ResponseEntity<List> entity = restTemplate.getForEntity("http://localhost:8686/restaurants", List.class);
+		ResponseEntity<List> entity = restTemplate.getForEntity("http://annapurna-restaurant/restaurants", List.class);
 		model.addAttribute("list", entity.getBody());
 		return "Home";
 	}
 	
 	@RequestMapping("/search")
 	public String search(Model model, @RequestParam String search) {
-		ResponseEntity<Restaurant[]> entity = restTemplate.getForEntity("http://localhost:8686/restaurants",
+		ResponseEntity<Restaurant[]> entity = restTemplate.getForEntity("http://annapurna-restaurant/restaurants",
 				Restaurant[].class);
 		List<Restaurant> restaurantlist = Arrays.asList(entity.getBody());
 		List<Restaurant> searchedList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class AnnapurnaController {
 
 	@RequestMapping("/foodItems")
 	public String getFoodItemsById(Model model, @RequestParam int restaurantId) {
-		ResponseEntity<Restaurant> entity = restTemplate.getForEntity("http://localhost:8686/restaurants/"+restaurantId, Restaurant.class);
+		ResponseEntity<Restaurant> entity = restTemplate.getForEntity("http://annapurna-restaurant/restaurants/"+restaurantId, Restaurant.class);
 		restaurant=entity.getBody();
 		model.addAttribute("restaurant", entity.getBody());
 		return "FoodItems";
@@ -81,7 +81,7 @@ public class AnnapurnaController {
 	@RequestMapping("/cart/getAll")// /cart/getAll
 	public String getAllCarts(Model model) {
 		System.out.println("getAll");
-		ResponseEntity<List> carts = restTemplate.getForEntity("http://localHost:8181/carts", List.class);
+		ResponseEntity<List> carts = restTemplate.getForEntity("http://annapurna-cart/carts", List.class);
 		model.addAttribute("carts", carts.getBody());
 		return "GetAllCart";
 	}
@@ -92,7 +92,7 @@ public class AnnapurnaController {
 		Set<FoodProducts> products = new HashSet<FoodProducts>();
 		products.add(new FoodProducts(foodName, price, quantity));
 		cart = new Cart(106, restaurant.getName(), products, price,restaurant.getAddress());
-		restTemplate.postForEntity("http://localHost:8181/carts", cart, Cart.class);
+		restTemplate.postForEntity("http://annapurna-cart/carts", cart, Cart.class);
 		model.addAttribute("cart", cart);
 		return "GetAllCart";
 	}
@@ -107,7 +107,7 @@ public class AnnapurnaController {
 
 	@RequestMapping("/cart/getById")
 	public String getOrderById(@RequestParam("orderId") Integer orderId, Model model) {
-		ResponseEntity<Order> order = restTemplate.getForEntity("http://localhost:9090/orders/" + orderId + " ",
+		ResponseEntity<Order> order = restTemplate.getForEntity("http://annapurna-order/orders/" + orderId + " ",
 				Order.class);
 		System.out.println(order.getBody());
 		model.addAttribute("message", "heyyyyyyyy !!!!");
@@ -124,7 +124,7 @@ public class AnnapurnaController {
 	
 	@RequestMapping("/cart/passMoneyForm")
 	public String deduct(/* @RequestParam Integer profileId, */ @RequestParam Double amount, Model model) {
-		restTemplate.put("http://localhost:7979/ewallets/" + 1 + "/pay?currentBalance=" + amount, null);
+		restTemplate.put("http://annapurna-ewallet/ewallets/" + 1 + "/pay?currentBalance=" + amount, null);
 		model.addAttribute("message", "money deducted and Order placed Successfully!");
 		String modeOfPayment = "E-Wallet"; // for now
 		Double totalAmount = 100.0; // for now
@@ -132,7 +132,7 @@ public class AnnapurnaController {
 		Integer id = getUniqueId();
 		Order order = new Order(id, modeOfPayment, "pending", cart.getProducts(), cart.getTotalAmount(), cart.getRestaurantName(), address,
 				cart.getCartId());
-		ResponseEntity<Order> order1 = restTemplate.postForEntity("http://localhost:9090/orders", order, Order.class);
+		ResponseEntity<Order> order1 = restTemplate.postForEntity("http://annapurna-order/orders", order, Order.class);
 		model.addAttribute("Order", order1.getBody());
 		System.out.println(order1.getBody());
 		return "Order";
@@ -153,7 +153,7 @@ public class AnnapurnaController {
 
 	@RequestMapping("/AddMoneyForm")
 	public String deposit(@RequestParam Integer profileId, @RequestParam Double amount, Model model) {
-		restTemplate.put("http://localhost:7979/ewallets/" + profileId + "?currentBalance=" + amount, null);
+		restTemplate.put("http://annapurna-ewallet/ewallets/" + profileId + "?currentBalance=" + amount, null);
 		model.addAttribute("message", "money added Successfully!");
 		return "addMoney";
 	}
@@ -171,7 +171,7 @@ public class AnnapurnaController {
 	@RequestMapping("/statement/{profileId}")
 	public String statement(@RequestParam Integer profileId, Model model) {
 		ResponseEntity<List> entity = restTemplate
-				.getForEntity("http://localhost:7979/ewallets/statements/" + profileId, List.class);
+				.getForEntity("http://annapurna-ewallet/ewallets/statements/" + profileId, List.class);
 		model.addAttribute("statements", entity.getBody());
 		return "statements";
 	}
