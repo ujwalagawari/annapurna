@@ -1,65 +1,86 @@
 package com.cg.app.AnnapurnaProfileService.entity;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
-
+/**
+ * @author ugawari
+ *
+ * This Entity have address related information of restaurants.
+ */
 public class Address {
-
-	private int houseNumber;    
-    private String streetName;
-    private String city;
-    private Integer pinCode;
-    private String state;
-    private String country;
-	public Address(int houseNumber, String streetName, String city, Integer pinCode, String state, String country) {
-		super();
-		this.houseNumber = houseNumber;
-		this.streetName = streetName;
-		this.city = city;
-		this.pinCode = pinCode;
-		this.state = state;
-		this.country = country;
-	}
+	
+	private String area;
+	private String city;
+	private String state;
+	private String country;
+	private int pincode;
+	
+	/**
+	 * Default constructor to create object.
+	 */
 	public Address() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public int getHouseNumber() {
-		return houseNumber;
+	
+	/**
+	 * 
+	 * @param area
+	 * @param city
+	 * @param state
+	 * @param country
+	 * @param pincode
+	 */
+	public Address(String area, String city, String state, String country, int pincode) {
+		super();
+		this.area = area;
+		this.city = city;
+		this.state = state;
+		this.country = country;
+		this.pincode = pincode;
 	}
-	public void setHouseNumber(int houseNumber) {
-		this.houseNumber = houseNumber;
+
+	public String getArea() {
+		return area;
 	}
-	public String getStreetName() {
-		return streetName;
+
+	public void setArea(String area) {
+		this.area = area;
 	}
-	public void setStreetName(String streetName) {
-		this.streetName = streetName;
-	}
+
 	public String getCity() {
 		return city;
 	}
+
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public Integer getPinCode() {
-		return pinCode;
-	}
-	public void setPinCode(Integer pinCode) {
-		this.pinCode = pinCode;
-	}
+
 	public String getState() {
 		return state;
 	}
+
 	public void setState(String state) {
 		this.state = state;
 	}
+
 	public String getCountry() {
 		return country;
 	}
+
 	public void setCountry(String country) {
 		this.country = country;
 	}
-}
+
+	public int getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(int pincode) {
+		this.pincode = pincode;
+	}
+
+	@Override
+	public String toString() {
+		return "Address [area=" + area + ", city=" + city + ", state=" + state + ", country=" + country + ", pincode="
+				+ pincode + "]";
+	}
 	
+}

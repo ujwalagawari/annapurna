@@ -2,6 +2,7 @@ package com.cg.app.AnnapurnaProfileService.serviceTest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,9 +65,9 @@ public class ServiceTest {
 	@Ignore
 	public void testForAddingAccount() {
 
-		Profile profile = new Profile(1, "imagehere", "bhanu bandi", 1996,
-				new Address(11, "Gandhi Nagar", "hyderabad",507303, "Telangana", "India"), 1, "bhanu@Gai", 9505L,
-				"M");
+		Profile profile = new Profile(1, "imagehere", "bhanu bandi","bhanu","bhanu",LocalDate.of(1997,02,12),
+				new Address( "Gandhi Nagar", "hyderabad","Telangana", "India",507303), 1, "bhanu@Gai", 9505L,
+				"male");
 
 		Profile profiles = service.addAccount(profile);
 
@@ -77,9 +78,9 @@ public class ServiceTest {
 	@Test
 	@Ignore
 	public void testForUpdate() {
-		Profile profile=new Profile(1, "imagehere", "bhanu bandi", 1996,
-				new Address(11, "Gandhi Nagar", "hyderabad", 507303, "Telangana", "India"), 1, "bandi@@", 9505L,
-				"i dont know");
+		Profile profile = new Profile(1, "imagehere", "bhanu bandi","bhanu","bhanu",LocalDate.of(1997,02,12),
+				new Address( "Gandhi Nagar", "hyderabad","Telangana", "India",507303), 1, "bhanu@Gai", 9505L,
+				"male");
 		profile.setEmailId("bandi@@");
 		profile.setGender("F");
 		Profile profiles = service.updateProfile(profile);

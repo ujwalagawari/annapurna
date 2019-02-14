@@ -2,6 +2,8 @@ package com.cg.app.AnnapurnaProfileService.resourceTest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDate;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,10 +29,11 @@ public class ResourceTest {
 	@Before
 	public void setup() {
 
-		profileService = new Profile(1, "sdgwrg", "bandi", 1996,
-				new Address(11,"Gandhi Nagar", "hyderabad",507303, "Telangana", "India"), 1,
-			"bandi@@", 9505L, "i dont know");
-
+		profileService = new Profile(1, "sdgwrg", "bandi", "bhanu","bandi",LocalDate.of(1997, 02, 16),
+				new Address("Gandhi Nagar", "hyderabad", "Telangana", "India",507303), 1,
+			"bandi@@", 9505L, "male");
+//		public Profile(int profileId, String profileImage, String name,String userName,String password,LocalDate dateOfBirth, Address address, int cartId,
+//				String emailId, Long phoneNumber, String gender) {
 	}
 
 	@Autowired
