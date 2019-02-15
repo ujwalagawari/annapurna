@@ -35,6 +35,9 @@ public class RestaurantApplication {
 	Map<Integer, Integer> ratings = new HashMap<Integer, Integer>();
 	Map<Integer, String> reviews = new HashMap<Integer, String>();
 	Set<String> photos = new HashSet<String>();
+	Set<String> photos1 = new HashSet<String>();
+	Set<String> photos2 = new HashSet<String>();
+	Set<String> photos3 = new HashSet<String>();
 
 	/*
 	 * @Bean public CommandLineRunner produceData(RestaurantRepository repository) {
@@ -44,7 +47,15 @@ public class RestaurantApplication {
 	 * 
 	 * reviews.put(101, "Quality Good"); reviews.put(102, "Quality Good");
 	 * 
-	 * photos.add("c:/food"); photos.add("c:/seefood");
+	 * photos.add(
+	 * "https://raw.githubusercontent.com/annapurna-website/Annapurna-Images/master/Foods-Images/landscape.jpg"
+	 * ); photos3.add(
+	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Foods-Images/hurt.jpg?raw=true"
+	 * ); photos1.add(
+	 * "https://raw.githubusercontent.com/annapurna-website/Annapurna-Images/master/Foods-Images/landscape.jpg"
+	 * ); photos2.add(
+	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Foods-Images/plane-image.jpg?raw=true"
+	 * );
 	 * 
 	 * return (env) -> { repository.save( new Restaurant(101, "Royal Foods", new
 	 * Address("Vitawa", "Thane", "Maharashtra", "India", 450124), foodItems,
@@ -52,10 +63,12 @@ public class RestaurantApplication {
 	 * FoodItem("Panner Tikka", true, 200.0, "Spicy Food", photos));
 	 * repository.save(new Restaurant(102, "Taj", new Address("CST", "Mumbai",
 	 * "Maharashtra", "India", 450124), foodItems, ratings, reviews, "Veg-NonVeg",
-	 * photos)); foodItems.add(new FoodItem("Biryani", true, 95.20, "Spicy Food",
-	 * photos)); repository.save(new Restaurant(103, "Taj", new Address("CST",
+	 * photos1)); foodItems.add(new FoodItem("Biryani", true, 95.20, "Spicy Food",
+	 * photos2)); repository.save(new Restaurant(103, "Kinara", new Address("CST",
 	 * "Mumbai", "Maharashtra", "India", 450124), foodItems, ratings, reviews,
-	 * "Veg-NonVeg", photos)); }; }
+	 * "Veg-NonVeg", photos3)); repository.save(new Restaurant(104, "Samadhan", new
+	 * Address("CST", "Mumbai", "Maharashtra", "India", 450124), foodItems, ratings,
+	 * reviews, "NonVeg", photos2)); }; }
 	 */
 
 	/*

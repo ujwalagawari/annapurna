@@ -67,7 +67,7 @@ public class ServiceTest {
 
 		Profile profile = new Profile(1, "imagehere", "bhanu bandi","bhanu","bhanu",LocalDate.of(1997,02,12),
 				new Address( "Gandhi Nagar", "hyderabad","Telangana", "India",507303), 1, "bhanu@Gai", 9505L,
-				"male");
+				"male", "USER");
 
 		Profile profiles = service.addAccount(profile);
 
@@ -80,7 +80,7 @@ public class ServiceTest {
 	public void testForUpdate() {
 		Profile profile = new Profile(1, "imagehere", "bhanu bandi","bhanu","bhanu",LocalDate.of(1997,02,12),
 				new Address( "Gandhi Nagar", "hyderabad","Telangana", "India",507303), 1, "bhanu@Gai", 9505L,
-				"male");
+				"male", "USER");
 		profile.setEmailId("bandi@@");
 		profile.setGender("F");
 		Profile profiles = service.updateProfile(profile);

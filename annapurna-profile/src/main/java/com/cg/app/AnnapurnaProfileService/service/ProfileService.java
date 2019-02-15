@@ -22,6 +22,8 @@ public interface ProfileService {
 
 	Profile addAccount(Profile profile);
 
+	Profile findByUserName(String userName);
+
 	
 //	void addAccount(int profile);
 

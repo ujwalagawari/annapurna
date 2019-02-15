@@ -31,7 +31,7 @@ public class ResourceTest {
 
 		profileService = new Profile(1, "sdgwrg", "bandi", "bhanu","bandi",LocalDate.of(1997, 02, 16),
 				new Address("Gandhi Nagar", "hyderabad", "Telangana", "India",507303), 1,
-			"bandi@@", 9505L, "male");
+			"bandi@@", 9505L, "male", "USER");
 //		public Profile(int profileId, String profileImage, String name,String userName,String password,LocalDate dateOfBirth, Address address, int cartId,
 //				String emailId, Long phoneNumber, String gender) {
 	}

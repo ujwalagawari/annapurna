@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cg.app.AnnapurnaProfileService.entity.Profile;
@@ -54,9 +55,12 @@ public class ProfileServiceImpl implements ProfileService{
 
 	@Override
 	public Profile addAccount(Profile profile) {
-		// TODO Auto-generated method stub
+		return(repository.save(profile));
+	}
 
-     return(repository.save(profile));
+	@Override
+	public Profile findByUserName(String userName) {
+		return repository.findByUserName(userName);
 	}
 
 	

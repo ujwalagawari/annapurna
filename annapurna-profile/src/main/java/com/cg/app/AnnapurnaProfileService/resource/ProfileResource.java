@@ -21,6 +21,8 @@ import com.cg.app.AnnapurnaProfileService.service.ProfileService;
 @RequestMapping("/profiless")
 public class ProfileResource {
 
+	
+	
 	@Autowired
 	public ProfileService service;
 
@@ -29,11 +31,14 @@ public class ProfileResource {
 	{
 		return service.getAllElement();		
 	}
+	
 	@PostMapping
 	public void createAccount(@RequestBody Profile profile)
 	{
-			service.addAccount(profile);	
+		
+		service.addAccount(profile);	
 	}
+	
 	@GetMapping("/{profileId}")
 	 public ResponseEntity<Profile> getProfileById(@PathVariable Integer profileId)
     {
@@ -43,16 +48,23 @@ public class ProfileResource {
         }
         return new ResponseEntity<>(profileobject.get(), HttpStatus.OK);
     }
+	
 	@DeleteMapping("/{profileId}")
-	public void deleteById(@PathVariable Integer profileId)
-	{
+	public void deleteById(@PathVariable Integer profileId){
 		service.deleteById(profileId);
 	}
+	
 	@PutMapping("/{profileId}")
 	public void updateProfile(@PathVariable int profileId,@RequestBody Profile profile) {
 		
 		service.updateProfile(profile);
-		
+	}
+	
+	@GetMapping("/login/{userName}")
+	public ResponseEntity<Profile> updateProfile(@PathVariable String userName) {
+		System.out.println("profile user name "+userName);
+		 Profile profile = service.findByUserName(userName);
+		 return new ResponseEntity<>(profile, HttpStatus.OK);
 	}
 
 }

@@ -1,21 +1,13 @@
-package com.cg.app.AnnapurnaProfileService.entity;
+package com.capgemini.annapurna.restaurant.entity;
 
 import java.time.LocalDate;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.IndexDirection;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Document
 public class Profile {
 
-	@Id
 	private int profileId;
 	private String profileImage;
 	private String name;
-	@Indexed(unique = true, direction = IndexDirection.DESCENDING, dropDups = true)
 	private String userName;
 	private String password;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -52,7 +44,7 @@ public class Profile {
 		this.emailId = emailId;
 		this.phoneNumber = phoneNumber;
 		this.gender = gender;
-		this.setRole(role);
+		this.role = role;
 	}
 	
 
@@ -159,5 +151,15 @@ public class Profile {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	@Override
+	public String toString() {
+		return "Profile [profileId=" + profileId + ", profileImage=" + profileImage + ", name=" + name + ", userName="
+				+ userName + ", password=" + password + ", dateOfBirth=" + dateOfBirth + ", address=" + address
+				+ ", cartId=" + cartId + ", emailId=" + emailId + ", phoneNumber=" + phoneNumber + ", gender=" + gender
+				+ ", role=" + role + "]";
+	}
+	
+	
 
 }
