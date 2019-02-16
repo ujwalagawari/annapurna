@@ -55,7 +55,10 @@ public class ProfileServiceImpl implements ProfileService{
 
 	@Override
 	public Profile addAccount(Profile profile) {
-		return(repository.save(profile));
+		profile = repository.save(profile);
+		profile.setCartId(profile.getCartId());
+		repository.save(profile);
+		return profile;
 	}
 
 	@Override

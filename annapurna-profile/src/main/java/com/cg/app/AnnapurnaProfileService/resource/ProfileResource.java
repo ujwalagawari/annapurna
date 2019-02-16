@@ -33,10 +33,8 @@ public class ProfileResource {
 	}
 	
 	@PostMapping
-	public void createAccount(@RequestBody Profile profile)
-	{
-		
-		service.addAccount(profile);	
+	public Profile createAccount(@RequestBody Profile profile){		
+		return service.addAccount(profile);	
 	}
 	
 	@GetMapping("/{profileId}")
@@ -55,14 +53,26 @@ public class ProfileResource {
 	}
 	
 	@PutMapping("/{profileId}")
-	public void updateProfile(@PathVariable int profileId,@RequestBody Profile profile) {
-		
+	public void updateProfile(@PathVariable int profileId,@RequestBody Profile profile2) {
+		Optional<Profile> profileobject = service.getAccountById(profileId);
+		Profile profile = profileobject.get();
+		profile.setName(profile2.getName());
+		profile.setEmailId(profile2.getEmailId());
+		profile.setDateOfBirth(profile2.getDateOfBirth());
+		profile.setGender(profile2.getGender());
+		profile.setPhoneNumber(profile2.getPhoneNumber());
+		profile.setUserName(profile2.getUserName());
+		profile.getAddress().setArea(profile2.getAddress().getArea());
+		profile.getAddress().setCity(profile2.getAddress().getCity());
+		profile.getAddress().setCountry(profile2.getAddress().getCountry());
+		profile.getAddress().setPincode(profile2.getAddress().getPincode());
+		profile.getAddress().setState(profile2.getAddress().getState());
 		service.updateProfile(profile);
 	}
 	
 	@GetMapping("/login/{userName}")
 	public ResponseEntity<Profile> updateProfile(@PathVariable String userName) {
-		System.out.println("profile user name "+userName);
+		//System.out.println("profile user name "+userName);
 		 Profile profile = service.findByUserName(userName);
 		 return new ResponseEntity<>(profile, HttpStatus.OK);
 	}

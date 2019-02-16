@@ -27,17 +27,14 @@ public class OrderResource {
 	@Autowired
 	OrderService service;
 
-	@GetMapping
-	public ResponseEntity<List<Order>> getAllOrders(){
-		List<Order> orders =service.getAllOrders();
-		//System.out.println(orders);
-		if(orders.isEmpty())
-		{
-			return new ResponseEntity<List<Order>>(orders,HttpStatus.NO_CONTENT);
-		}
-		System.out.println(orders.get(0).getModeOfPayment());
-		return new ResponseEntity<List<Order>>(orders,HttpStatus.OK);
-	}
+	/*
+	 * @GetMapping public ResponseEntity<List<Order>> getAllOrders(){ List<Order>
+	 * orders =service.getAllOrders(); //System.out.println(orders);
+	 * if(orders.isEmpty()) { return new
+	 * ResponseEntity<List<Order>>(orders,HttpStatus.NO_CONTENT); }
+	 * System.out.println(orders.get(0).getModeOfPayment()); return new
+	 * ResponseEntity<List<Order>>(orders,HttpStatus.OK); }
+	 */
 	
 	@GetMapping("/{orderId}")
 	public ResponseEntity<Order> getOrderById(@PathVariable Integer orderId) {
@@ -81,5 +78,19 @@ public class OrderResource {
 		Optional<Order> order=service.getOrderById(orderId);
 		return order.get().getStatus();	
 	}
+	
+	
+	@GetMapping
+	public ResponseEntity<List<Order>> getAllOrdersByUserId(@RequestParam Integer cartId) {
+		List<Order> orders =service.getAllOrdersByUserId(cartId);
+		//System.out.println(orders);
+		if(orders.isEmpty())
+		{
+			return new ResponseEntity<List<Order>>(orders,HttpStatus.NO_CONTENT);
+		}
+		System.out.println(orders.get(0).getModeOfPayment());
+		return new ResponseEntity<List<Order>>(orders,HttpStatus.OK);
+	}
+	
 	
 }

@@ -32,11 +32,17 @@ public class EWalletResource {
 	public void addMoney(@PathVariable Integer profileId, @RequestParam("currentBalance") double amount) {
 		service.addMoney(profileId, amount);
 	}
-
+	
 	@PostMapping
-	public void addwallet(@RequestBody EWallet ewallet) {
-		service.addwallet(ewallet);
+	public void addwallet(@RequestBody EWallet eWallet) {
+		service.addwallet(eWallet);
 	}
+
+	/*
+	 * @PostMapping public void addwallet(@RequestParam Integer profileId) { EWallet
+	 * ewallet = new EWallet(); ewallet.setProfileId(profileId);
+	 * service.addwallet(ewallet); }
+	 */
 
 	@GetMapping("/{profileId}")
 	public double getWalletBalance(@PathVariable Integer profileId) {

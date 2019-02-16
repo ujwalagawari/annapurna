@@ -54,6 +54,11 @@ public class OrderService {
 		order.get().setStatus(status);
 		return repository.save(order.get());
 	}
+
+	public List<Order> getAllOrdersByUserId(Integer cartId) {
+		List<Order> orders=repository.findByCartId(cartId);
+		return orders;
+	}
 	
 	
 	

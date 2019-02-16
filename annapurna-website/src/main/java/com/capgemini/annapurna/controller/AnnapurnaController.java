@@ -12,6 +12,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +26,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.capgemini.annapurna.restaurant.entity.Address;
 import com.capgemini.annapurna.restaurant.entity.Cart;
+import com.capgemini.annapurna.restaurant.entity.EWallet;
 import com.capgemini.annapurna.restaurant.entity.FoodItem;
 import com.capgemini.annapurna.restaurant.entity.FoodProducts;
 import com.capgemini.annapurna.restaurant.entity.Order;
 import com.capgemini.annapurna.restaurant.entity.Profile;
 import com.capgemini.annapurna.restaurant.entity.Restaurant;
+import com.capgemini.annapurna.restaurant.entity.Statement;
+import com.capgemini.annapurna.service.CustomUserDetailsService;
 
 /**
  * @author ugawari
@@ -39,29 +44,17 @@ public class AnnapurnaController {
 
 	@Autowired
 	private RestTemplate restTemplate;
-	
-	/******* Login ******/
-	/*
-	 * @RequestMapping(value = "/login", method = RequestMethod.GET) public
-	 * ModelAndView login() { ModelAndView modelAndView = new ModelAndView();
-	 * modelAndView.setViewName("login"); return modelAndView; }
-	 */
-	
-	 @RequestMapping(value = "/login", method = RequestMethod.GET)
-	    public ModelAndView login() {
-	        ModelAndView modelAndView = new ModelAndView();
-	        modelAndView.setViewName("NewFile");
-	        return modelAndView;
-	    }
 
+	@Autowired
+	private  CustomUserDetailsService customUserDetailsService;
 	/******** Restaurant ********/
 	
 	@RequestMapping("/")
 	public String getAllRestaurants(Model model) {
 		ResponseEntity<List> entity = restTemplate.getForEntity("http://annapurna-restaurant/restaurants", List.class);
 		model.addAttribute("list", entity.getBody());
-		//return "NewFile";
 		return "Home";
+		//return "NewFile";
 	}
 
 	@RequestMapping("/search")
@@ -97,30 +90,76 @@ public class AnnapurnaController {
 		return "FoodItems";
 	}
 
+	/******* Login ******/
+	 
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView login() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("login");
+		return modelAndView;
+	}
+	
+	
+	
 	/******** Profile ********/
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signUpPage() {
 		return "AccountForm";
+		//return "NewFile";
 	}
 	
 	@Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	@RequestMapping("/createAccount")
+	@RequestMapping(value="/createAccount", method=RequestMethod.POST)
 	public String createAccount(@ModelAttribute Profile profile,Model model){
-		System.out.println(profile);
 		profile.setPassword(bCryptPasswordEncoder.encode(profile.getPassword()));
 		profile.setRole("USER");
-		restTemplate.postForEntity("http://annapurna-profile/profiless", profile, Profile.class);
+		ResponseEntity<Profile> profileEntity=restTemplate.postForEntity("http://annapurna-profile/profiless", profile, Profile.class);
+		Profile profile2= profileEntity.getBody();
+		EWallet eWallet = new EWallet();
+		eWallet.setProfileId(profile2.getProfileId());
+		eWallet.setCurrentBalance(0.0);
+		restTemplate.postForEntity("http://annapurna-ewallet/ewallets", eWallet, EWallet.class);
 		ResponseEntity<List> entity = restTemplate.getForEntity("http://annapurna-restaurant/restaurants", List.class);
 		model.addAttribute("list", entity.getBody());
 		return "Home";
 	}
 	
-	@RequestMapping("/update")
-	public String updateAccount() {
+	@RequestMapping("/cart/userProfile")
+	public String features(Model model) {
+		Profile profile = customUserDetailsService.getCurrentUser();
+		model.addAttribute("profile", profile);
+		return "UserProfile";
+	}
+	
+	@RequestMapping("/cart/updateAccounts")
+	public String updateAccounts(@RequestParam("profileId") int profileId, Model model) {
+//		System.out.println("Inside update");
+		System.out.println(profileId);
+		ResponseEntity<Profile> profile = restTemplate.getForEntity("http://annapurna-profile/profiless/" + profileId,
+				Profile.class);
+		model.addAttribute("profile", profile.getBody());
 		return "updateForm";
+	}
+
+	@RequestMapping("/cart/updatedform")
+	public String updatedformControl(@ModelAttribute Profile profile, Model model) {
+		restTemplate.put("http://annapurna-profile/profiless/" + profile.getProfileId(), profile);
+		ResponseEntity<List> entity = restTemplate.getForEntity("http://annapurna-restaurant/restaurants", List.class);
+		model.addAttribute("list", entity.getBody());
+		return "Home";
+	}
+	
+	@RequestMapping("/cart/gettingAccountFromId")
+	public String getAccountFromId(@RequestParam("profileId") int profileId, Model model) {
+		System.out.println("Inside the gettingAccountFromId");
+		Profile profile = restTemplate.getForObject("http://annapurna-profile/profiless/" + profileId, Profile.class);
+		// 0 System.out.println(profile.getAddress().getStreetName());
+		model.addAttribute("profile", profile);
+		return "ProfileDetails";
 	}
 	
 	
@@ -198,33 +237,47 @@ public class AnnapurnaController {
 		return "Order";
 	}
 
-	@RequestMapping("/AddMoneyLink")
-	public String depositForm() {
+	@RequestMapping("/cart/AddMoneyLink")
+	public String depositForm(@RequestParam Integer profileId, Model model) {
+		model.addAttribute("profileId", profileId);
 		return "addMoney";
 	}
 
-	@RequestMapping("/AddMoneyForm")
+	@RequestMapping("/cart/AddMoneyForm")
 	public String deposit(@RequestParam Integer profileId, @RequestParam Double amount, Model model) {
+		System.out.println("profileId "+profileId);
 		restTemplate.put("http://annapurna-ewallet/ewallets/" + profileId + "?currentBalance=" + amount, null);
 		model.addAttribute("message", "money added Successfully!");
 		return "addMoney";
 	}
 
-	@RequestMapping("/PassMoneyLink")
+	@RequestMapping("/cart/currentEWalletBalance")
+	public String getWalletBalance(@RequestParam Integer profileId, Model model) {
+		ResponseEntity<Double> entity = restTemplate
+				.getForEntity("http://annapurna-ewallet/ewallets/"+ profileId, Double.class);
+		model.addAttribute("currentBalance", entity.getBody());
+		model.addAttribute("profile", customUserDetailsService.getCurrentUser());
+		return "EWalletBalance";
+	}
+	
+	
+	@RequestMapping("/cart/PassMoneyLink")
 	public String deductAmount() {
 		return "passMoney";
 	}
 
-	@RequestMapping("/StatementForm")
+	@RequestMapping("/cart/StatementForm")
 	public String statementForm() {
 		return "statements";
 	}
 
-	@RequestMapping("/statement/{profileId}")
+	@RequestMapping("/cart/statement")
 	public String statement(@RequestParam Integer profileId, Model model) {
 		ResponseEntity<List> entity = restTemplate
 				.getForEntity("http://annapurna-ewallet/ewallets/statements/" + profileId, List.class);
-		model.addAttribute("statements", entity.getBody());
+		List<Statement> statements= entity.getBody();
+		System.out.println(statements);
+		model.addAttribute("statements", statements);
 		return "statements";
 	}
 
