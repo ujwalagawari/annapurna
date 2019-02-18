@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="core" uri="http://java.sun.com/jstl/core_rt"%>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +14,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 <style>
 .box {
 	height: 250px;
@@ -48,7 +49,7 @@ body {
 		</div>
 		<br>
 		<div class="row">
-			<core:forEach var="restaurant" items="${list}">
+			<core:forEach var="restaurant" items="${list}" varStatus="listStatus">
 				<div class="col-md-4">
 					<div class="thumbnail">
 						<a href="/foodItems?restaurantId=${restaurant.restaurantId}">
@@ -62,8 +63,29 @@ body {
 							</core:forEach>
 							<h4>
 								<a href="/foodItems?restaurantId=${restaurant.restaurantId}">${restaurant.name}</a>
+								
+								&nbsp; &nbsp; &nbsp; &nbsp;
+								<input value="ratings${listStatus.index}" id="ratings${listStatus.index}"  readonly="readonly" size="1%"/>
 							</h4>
-							<h5>${restaurant.type}</h5>
+							<h5>${restaurant.type}
+								<%-- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="#">Reviews-${fn:length(restaurant.reviews)}</a> --%>
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="/viewReviews?restaurantId=${restaurant.restaurantId}">Reviews-${fn:length(restaurant.reviews)}</a>
+							</h5>
+							
+								<core:forEach var="ratings" items="${restaurant.ratings}" varStatus="status">
+										<input type="hidden" id="rate${status.index}" value="${ratings.value}" />
+								</core:forEach>
+								
+								<script type="text/javascript">
+										var individualRating = 0;
+										for (i = 0; i < ${fn:length(restaurant.ratings)}; i++) { 
+											var rate = document.getElementById("rate"+i).value;
+											individualRating = parseInt(rate) + parseInt(individualRating);
+										}
+										var rating = individualRating / ${fn:length(restaurant.ratings)};
+										document.getElementById("ratings"+${listStatus.index}).value = rating;
+										document.getElementById("ratings"+${listStatus.index}).style.backgroundColor = "#4CAF50";
+								</script>
 						</a>
 					</div>
 				</div>

@@ -1,18 +1,68 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
+<%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<style type="text/css">
+	body{
+	    /* background-image: url();    */
+	    background-size:1500px 800px;
+	    background-color: #d5d6933d;
+	}
+</style>
 </head>
-<body>
 
-<jsp:include page="menu.jsp" />
-<form action="/cart/passMoneyForm" method="get">
-	<!-- Enter profileId: --> <input type="hidden" value="1" name="profileId"/><br/>
-	Enter Amount : <input value="${totalAmount}" name="amount" readonly="readonly"/><br/><!-- ${Order.totalAmount} -->
-	<input type="submit"/>
-</form>
+<body background="./images/pattern2.jpg">
+	<jsp:include page="menu.jsp" />
+	<div id="login-overlay" class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">To Place Order make payment.</h4>
+			</div>
+
+			<div class="modal-body">
+
+
+				<form action="/cart/passMoneyForm" method="post">
+				<input type="hidden" name="profileId" value="${profileId}" />
+					<!---form--->
+
+					<div class="form-group">
+						<div class="col-xs-12">
+							<label for="InputStreetName">Amount</label>
+							<div class="input-group">
+								<input type="text" class="form-control" name="amount"
+									value="${totalAmount}" placeholder="Enter amount here" readonly="readonly" required="required" /> <span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-asterisk"></span></span>
+							</div>
+							<!----------------------------break------------------------------------------------------------->
+							<br>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="input-group-addon">
+							<input type="submit" name="submit" id="submit" value="Submit"
+								class="btn btn-success pull-center">
+
+						</div>
+					</div>
+				</form>
+			</div>
+			<!---modal-body--->
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		
+	</script>
 </body>
+
 </html>

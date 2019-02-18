@@ -39,36 +39,44 @@ public class RestaurantApplication {
 	Set<String> photos2 = new HashSet<String>();
 	Set<String> photos3 = new HashSet<String>();
 
-	/*
-	 * @Bean public CommandLineRunner produceData(RestaurantRepository repository) {
-	 * foodItems.add(new FoodItem("Fish Fry", false, 100.9, "Food", photos));
-	 * 
-	 * ratings.put(101, 3); ratings.put(102, 4);
-	 * 
-	 * reviews.put(101, "Quality Good"); reviews.put(102, "Quality Good");
-	 * 
-	 * photos.add(
-	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food1.jpg?raw=true"
-	 * ); photos3.add(
-	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food2.jpg?raw=true"
-	 * ); photos1.add(
-	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food3.jpg?raw=true"
-	 * ); photos2.add(
-	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food4.jpg?raw=true"
-	 * );
-	 * 
-	 * return (env) -> { repository.save( new Restaurant(101, "Royal Foods", new
-	 * Address("Vitawa", "Thane", "Maharashtra", "India", 450124), foodItems,
-	 * ratings, reviews, "Veg-NonVeg", photos)); foodItems.add(new
-	 * FoodItem("Panner Tikka", true, 200.0, "Spicy Food", photos));
-	 * repository.save(new Restaurant(102, "Taj", new Address("CST", "Mumbai",
-	 * "Maharashtra", "India", 450124), foodItems, ratings, reviews, "Veg-NonVeg",
-	 * photos1)); foodItems.add(new FoodItem("Biryani", true, 95.20, "Spicy Food",
-	 * photos2)); repository.save(new Restaurant(103, "Kinara", new Address("CST",
-	 * "Mumbai", "Maharashtra", "India", 450124), foodItems, ratings, reviews,
-	 * "Veg-NonVeg", photos3)); repository .save(new Restaurant(104, "Samadhan", new
-	 * Address("CST", "Mumbai", "Maharashtra", "India", 450124), foodItems, ratings,
-	 * reviews, "NonVeg", photos2)); }; }
-	 */
+	@Bean
+	public CommandLineRunner produceData(RestaurantRepository repository) {
+		foodItems.add(new FoodItem("Fish Fry", false, 100.9, "Food", photos));
+
+		ratings.put(101, 3);
+		
+		reviews.put(102, "Quality Good");
+
+		photos.add(
+				"https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food1.jpg?raw=true");
+		photos3.add(
+				"https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food2.jpg?raw=true");
+		photos1.add(
+				"https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food3.jpg?raw=true");
+		photos2.add(
+				"https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food4.jpg?raw=true");
+
+		return (env) -> {
+			repository.save(
+					new Restaurant(101, "Royal Foods", new Address("Vitawa", "Thane", "Maharashtra", "India", 450124),
+							foodItems, ratings, reviews, "Veg-NonVeg", photos));
+			foodItems.add(new FoodItem("Panner Tikka", true, 200.0, "Spicy Food", photos));
+			
+			ratings.put(102, 4);
+			reviews.put(101, "Quality Good");
+			repository.save(new Restaurant(102, "Taj", new Address("CST", "Mumbai", "Maharashtra", "India", 450124),
+					foodItems, ratings, reviews, "Veg-NonVeg", photos1));
+			foodItems.add(new FoodItem("Biryani", true, 95.20, "Spicy Food", photos2));
+			
+			ratings.put(103, 5);
+			repository.save(new Restaurant(103, "Kinara", new Address("CST", "Mumbai", "Maharashtra", "India", 450124),
+					foodItems, ratings, reviews, "Veg-NonVeg", photos3));
+			
+			reviews.put(103, "foods are very Good");
+			ratings.put(104, 5);
+			repository.save(new Restaurant(104, "Samadhan", new Address("CST", "Mumbai", "Maharashtra", "India", 450124),
+							foodItems, ratings, reviews, "NonVeg", photos2));
+		};
+	}
 
 }
