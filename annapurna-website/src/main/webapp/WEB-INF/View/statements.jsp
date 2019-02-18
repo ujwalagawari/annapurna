@@ -11,10 +11,11 @@
 <title>Annapurna</title>
 
 <style type="text/css">
-/* body{
-    background-image: url(https://images.unsplash.com/photo-1531415074968-036ba1b575da?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=472642856008b6ddb3e596e45ca4263d&auto=format&fit=crop&w=1494&q=80);   
+body{
+    /* background-image: url();    */
     background-size:1500px 800px;
-} */
+    background-color: #d5d6933d;
+}
 
 
 table{

@@ -5,6 +5,13 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<style type="text/css">
+	body{
+	    /* background-image: url();    */
+	    background-size:1500px 800px;
+	    background-color: #d5d6933d;
+	}
+</style>
 </head>
 <body>
 <jsp:include page="menu.jsp" />

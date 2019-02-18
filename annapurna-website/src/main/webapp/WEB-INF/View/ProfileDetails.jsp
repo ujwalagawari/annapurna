@@ -44,6 +44,10 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
 	background-color: #eee;
 }
+body {
+	background-size: 1500px 800px;
+	background-color: #d5d6933d;
+}
 </style>
 </head>
 <body>

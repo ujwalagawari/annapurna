@@ -12,6 +12,13 @@
 <link
 	href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
 	rel="stylesheet">
+<style type="text/css">
+	body{
+	    /* background-image: url();    */
+	    background-size:1500px 800px;
+	    background-color: #d5d6933d;
+	}
+</style>
 </head>
 
 <body background="./images/pattern2.jpg">

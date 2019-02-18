@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="core" uri="http://java.sun.com/jstl/core_rt"%>
 
 <!DOCTYPE html>
@@ -7,9 +8,12 @@
 <title>Annapurna</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <style>
 .box {
 	height: 250px;
@@ -17,20 +21,28 @@
 }
 
 body {
-	background-color: #F2F1F1;
+	background-size: 1500px 800px;
+	background-color: #d5d6933d;
 }
 </style>
 </head>
 <body>
 	<jsp:include page="menu.jsp" />
-	
+
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-6">
 				<form action="search">
 					Search : <input name="search"
 						placeholder="Search By Food or Restaurant"> <input
 						type="submit" value="Search">
+				</form>
+			</div>
+			<div class="col-md-6">
+				<form action="searchByCity">
+					Search : <input name="search"
+						placeholder="Search Restaurant By City Or State Or Country">
+					<input type="submit" value="Search">
 				</form>
 			</div>
 		</div>

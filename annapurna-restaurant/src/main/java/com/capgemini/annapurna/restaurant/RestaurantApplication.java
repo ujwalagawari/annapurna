@@ -48,13 +48,13 @@ public class RestaurantApplication {
 	 * reviews.put(101, "Quality Good"); reviews.put(102, "Quality Good");
 	 * 
 	 * photos.add(
-	 * "https://raw.githubusercontent.com/annapurna-website/Annapurna-Images/master/Foods-Images/landscape.jpg"
+	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food1.jpg?raw=true"
 	 * ); photos3.add(
-	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Foods-Images/hurt.jpg?raw=true"
+	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food2.jpg?raw=true"
 	 * ); photos1.add(
-	 * "https://raw.githubusercontent.com/annapurna-website/Annapurna-Images/master/Foods-Images/landscape.jpg"
+	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food3.jpg?raw=true"
 	 * ); photos2.add(
-	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Foods-Images/plane-image.jpg?raw=true"
+	 * "https://github.com/annapurna-website/Annapurna-Images/blob/master/Restaurant-Images/food4.jpg?raw=true"
 	 * );
 	 * 
 	 * return (env) -> { repository.save( new Restaurant(101, "Royal Foods", new
@@ -66,30 +66,9 @@ public class RestaurantApplication {
 	 * photos1)); foodItems.add(new FoodItem("Biryani", true, 95.20, "Spicy Food",
 	 * photos2)); repository.save(new Restaurant(103, "Kinara", new Address("CST",
 	 * "Mumbai", "Maharashtra", "India", 450124), foodItems, ratings, reviews,
-	 * "Veg-NonVeg", photos3)); repository.save(new Restaurant(104, "Samadhan", new
+	 * "Veg-NonVeg", photos3)); repository .save(new Restaurant(104, "Samadhan", new
 	 * Address("CST", "Mumbai", "Maharashtra", "India", 450124), foodItems, ratings,
 	 * reviews, "NonVeg", photos2)); }; }
-	 */
-
-	/*
-	 * server.port=8081 spring.data.mongodb.database=restaurant_db
-	 * spring.main.allow-bean-definition-overriding=true
-	 */
-
-	/*
-	 * security: oauth2: client: clientId: 91ae41cc2a47a598f40e clientSecret:
-	 * a6a2737b7c0bab8e40a618e39388734c5987322f accessTokenUri:
-	 * https://github.com/login/oauth/access_token userAuthorizationUri:
-	 * https://github.com/login/oauth/authorize tokenName: oauth_token
-	 * authenticationScheme: query clientAuthenticationScheme: form resource:
-	 * userInfoUri: https://api.github.com/user
-	 * 
-	 * 
-	 * server: port: 8081
-	 * 
-	 * spring: data: mongodb: database: restaurant_db
-	 * 
-	 * main: allow-bean-definition-overriding: true
 	 */
 
 }

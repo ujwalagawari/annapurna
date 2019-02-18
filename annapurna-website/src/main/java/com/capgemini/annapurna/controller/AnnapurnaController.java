@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.capgemini.annapurna.restaurant.entity.Address;
 import com.capgemini.annapurna.restaurant.entity.Cart;
@@ -66,12 +67,28 @@ public class AnnapurnaController {
 		for (Restaurant restaurant : restaurantlist) {
 			if (restaurant.getName().equalsIgnoreCase(search))
 				searchedList.add(restaurant);
-			if (restaurant.getAddress().getCity().equalsIgnoreCase(search))
-				searchedList.add(restaurant);
 			for (FoodItem foodItem : restaurant.getFoodItems()) {
 				if (foodItem.getFoodName().equalsIgnoreCase(search))
 					searchedList.add(restaurant);
 			}
+		}
+		model.addAttribute("list", searchedList);
+		return "Home";
+	}
+	
+	@RequestMapping("/searchByCity")
+	public String searchByCity(Model model, @RequestParam String search) {
+		ResponseEntity<Restaurant[]> entity = restTemplate.getForEntity("http://annapurna-restaurant/restaurants",
+				Restaurant[].class);
+		List<Restaurant> restaurantlist = Arrays.asList(entity.getBody());
+		List<Restaurant> searchedList = new ArrayList<>();
+		for (Restaurant restaurant : restaurantlist) {
+			if (restaurant.getAddress().getCity().equalsIgnoreCase(search))
+				searchedList.add(restaurant);
+			if (restaurant.getAddress().getState().equalsIgnoreCase(search))
+				searchedList.add(restaurant);
+			if (restaurant.getAddress().getCountry().equalsIgnoreCase(search))
+				searchedList.add(restaurant);
 		}
 		model.addAttribute("list", searchedList);
 		return "Home";
@@ -145,12 +162,21 @@ public class AnnapurnaController {
 		return "updateForm";
 	}
 
+	/*
+	 * @RequestMapping("/cart/updatedform") public String
+	 * updatedformControl(@ModelAttribute Profile profile, Model model) {
+	 * restTemplate.put("http://annapurna-profile/profiless/" +
+	 * profile.getProfileId(), profile); ResponseEntity<List> entity =
+	 * restTemplate.getForEntity("http://annapurna-restaurant/restaurants",
+	 * List.class); model.addAttribute("list", entity.getBody()); return "Home"; }
+	 */
+	
 	@RequestMapping("/cart/updatedform")
 	public String updatedformControl(@ModelAttribute Profile profile, Model model) {
 		restTemplate.put("http://annapurna-profile/profiless/" + profile.getProfileId(), profile);
 		ResponseEntity<List> entity = restTemplate.getForEntity("http://annapurna-restaurant/restaurants", List.class);
 		model.addAttribute("list", entity.getBody());
-		return "Home";
+		return "redirect:/cart/userProfile";
 	}
 	
 	@RequestMapping("/cart/gettingAccountFromId")
@@ -244,11 +270,11 @@ public class AnnapurnaController {
 	}
 
 	@RequestMapping("/cart/AddMoneyForm")
-	public String deposit(@RequestParam Integer profileId, @RequestParam Double amount, Model model) {
+	public String deposit(@RequestParam Integer profileId, @RequestParam Double amount, Model model, RedirectAttributes redirectAttributes) {
 		System.out.println("profileId "+profileId);
 		restTemplate.put("http://annapurna-ewallet/ewallets/" + profileId + "?currentBalance=" + amount, null);
-		model.addAttribute("message", "money added Successfully!");
-		return "addMoney";
+		redirectAttributes.addAttribute("profileId", profileId);
+		return "redirect:/cart/currentEWalletBalance";
 	}
 
 	@RequestMapping("/cart/currentEWalletBalance")

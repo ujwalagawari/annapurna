@@ -14,12 +14,15 @@
 		height="120" width="100%">
 	<h3 align="center">
 		<a href="${pageContext.request.contextPath}/">Home</a> | 
-		&nbsp; <a onclick="document.forms['logoutForm'].submit()">Logout</a> |
-		&nbsp; <span>Welcome ${username}</span> |
-		&nbsp; <a href="/cart/userProfile">Profile</a>
-			<form action="/signup">
-				<input type="submit" name="signup" value="signup">
-			</form>
+		<c:if test="${username == 'anonymousUser'}">
+			&nbsp; <a href="/login">Log In</a> |
+			&nbsp; <a href="/signup">Create an Account</a> 
+		</c:if>
+		<c:if test="${username != 'anonymousUser'}">
+			&nbsp; <a onclick="document.forms['logoutForm'].submit()">Logout</a> |
+			&nbsp; <a href="/cart/userProfile">Profile</a> |
+			&nbsp; <span>Welcome ${username}</span> 
+		</c:if>	
 	</h3>
 	<form id="logoutForm" method="POST" action="${contextPath}/logout">
 	</form>
