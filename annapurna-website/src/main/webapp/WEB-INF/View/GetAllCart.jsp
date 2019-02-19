@@ -189,11 +189,8 @@ function compute(){
     var x=0; var y = 0; var z = 0;
     for (i = 0; i < ${fn:length(cart.products)}; i++) {
         y=document.getElementById("quantity"+i).value;
-   //     alert(y);
         z=document.getElementById("price"+i).value;
-      //  alert(z);
         x = parseInt(x)+parseInt(y*z);
-    //   alert(x);
         document.getElementById("amount").value=x;
     }
 }

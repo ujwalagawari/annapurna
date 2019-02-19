@@ -291,7 +291,7 @@ public class AnnapurnaController {
                 cart = new Cart(106, restaurantName, products, price, restaurant.getAddress());
                 restTemplate.postForEntity( "http://annapurna-cart/carts" /*"http://10.246.92.254:8181/carts"*/, cart,
                         Cart.class);
-                count=0;
+               // count=0;
             }
         }
  
