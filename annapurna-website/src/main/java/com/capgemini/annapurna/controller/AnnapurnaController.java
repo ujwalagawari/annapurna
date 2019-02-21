@@ -109,7 +109,7 @@ public class AnnapurnaController {
 		model.addAttribute("restaurant", entity.getBody());
 		return "FoodItems";
 	}
-	
+
 	@RequestMapping("/viewReviews")
 	public String viewReviewsByResturant(Model model, @RequestParam int restaurantId) {
 		ResponseEntity<Restaurant> entity = restTemplate
@@ -255,58 +255,61 @@ public class AnnapurnaController {
 	 */
 
 	@RequestMapping("/cart/addCart")
-    public String addCart(/* @RequestParam String restaurantName, */ @RequestParam String foodName,@RequestParam String restaurantName,
-            @RequestParam double price, @RequestParam int quantity/* ,@RequestParam Address address */, Model model) {
-        count++;
-        
-        System.out.println(cart);
-        if (count == 1) {
-            products = new HashSet<FoodProducts>();
-            foodProducts = new FoodProducts(foodName, price, quantity);
-            products.add(foodProducts);
-            
-            cart = new Cart(106, restaurant.getName(), products, price, restaurant.getAddress());
-            restTemplate.postForEntity( "http://annapurna-cart/carts" /*"http://10.246.92.254:8181/carts"*/, cart,
-                    Cart.class);
-            
-        } else {
-            System.out.println(restaurantName);
-            if(restaurantName.equalsIgnoreCase(cart.getRestaurantName())) {
-            
-                FoodProducts newfoodProducts = new FoodProducts(foodName, price, quantity);
-                products=cart.getProducts();
-                products.add(newfoodProducts);
-                cart.setProducts(products);
-            
-                
+	public String addCart(/* @RequestParam String restaurantName, */ @RequestParam String foodName,
+			@RequestParam String restaurantName, @RequestParam double price,
+			@RequestParam int quantity/* ,@RequestParam Address address */, Model model) {
+		count++;
+
+		System.out.println(cart);
+		if (count == 1) {
+			products = new HashSet<FoodProducts>();
+			foodProducts = new FoodProducts(foodName, price, quantity);
+			products.add(foodProducts);
+
+			cart = new Cart(customUserDetailsService.getCurrentUser().getProfileId(), restaurant.getName(), products,
+					price, restaurant.getAddress());
+			restTemplate.postForEntity("http://annapurna-cart/carts" /* "http://10.246.92.254:8181/carts" */, cart,
+					Cart.class);
+
+		} else {
+			// System.out.println(restaurantName);
+			if (restaurantName.equalsIgnoreCase(cart.getRestaurantName())) {
+
+				FoodProducts newfoodProducts = new FoodProducts(foodName, price, quantity);
+				products = cart.getProducts();
+				products.add(newfoodProducts);
+				cart.setProducts(products);
+
+				// System.out.println(cart);
 				restTemplate.put(
-						 "http://annapurna-cart/carts/" /* "http://10.246.92.254:8181/carts/" */+cart.getCartId(), cart,
-                        Cart.class);
-                
-            }
-            else {
-                products = new HashSet<FoodProducts>();
-                foodProducts = new FoodProducts(foodName, price, quantity);
-                products.add(foodProducts);
-                cart = new Cart(106, restaurantName, products, price, restaurant.getAddress());
-                restTemplate.postForEntity( "http://annapurna-cart/carts" /*"http://10.246.92.254:8181/carts"*/, cart,
-                        Cart.class);
-               // count=0;
-            }
-        }
- 
-        model.addAttribute("restaurantId", restaurant.getRestaurantId());
- 
-        ResponseEntity<Cart> entity = restTemplate
-                .getForEntity("http://annapurna-cart/carts/" + cart.getCartId() + "", Cart.class);
- 
-         System.out.println(entity.getBody() + "after getting cart"); // cart=
-        System.out.println(entity.getBody());
-        model.addAttribute("cart",entity.getBody());
- 
-        return "GetAllCart";
-    }
-	
+						"http://annapurna-cart/carts/" /* "http://10.246.92.254:8181/carts/" */ + cart.getCartId(),
+						cart, Cart.class);
+				// System.out.println(cart);
+			} else {
+				products = new HashSet<FoodProducts>();
+				foodProducts = new FoodProducts(foodName, price, quantity);
+				products.add(foodProducts);
+				cart = new Cart(customUserDetailsService.getCurrentUser().getProfileId(), restaurantName, products,
+						price, restaurant.getAddress());
+				restTemplate.postForEntity("http://annapurna-cart/carts" /* "http://10.246.92.254:8181/carts" */, cart,
+						Cart.class);
+
+				// count=0;
+			}
+		}
+
+		model.addAttribute("restaurantId", restaurant.getRestaurantId());
+
+		ResponseEntity<Cart> entity = restTemplate.getForEntity("http://annapurna-cart/carts/" + cart.getCartId() + "",
+				Cart.class);
+
+		// System.out.println(entity.getBody() + "after getting cart"); // cart=
+		// System.out.println(entity.getBody());
+		model.addAttribute("cart", entity.getBody());
+
+		return "GetAllCart";
+	}
+
 	private Integer getUniqueId() {
 		UUID idOne = UUID.randomUUID();
 		int uid = idOne.hashCode();
@@ -321,7 +324,7 @@ public class AnnapurnaController {
 	public String getOrderById(@RequestParam("orderId") Integer orderId, Model model) {
 		ResponseEntity<Order> order = restTemplate.getForEntity("http://annapurna-order/orders/" + orderId + " ",
 				Order.class);
-		System.out.println(order.getBody());
+		// System.out.println(order.getBody());
 		model.addAttribute("message", "heyyyyyyyy !!!!");
 		model.addAttribute("Order", order.getBody());
 		return "Order";
@@ -348,21 +351,19 @@ public class AnnapurnaController {
 			Model model) {
 
 		Iterator iterator = products.iterator();
-
+//System.out.println(quantityList);
+		int i = 0;
+		int j = 0;
 		while (iterator.hasNext()) {
 
 			FoodProducts product = (FoodProducts) iterator.next();
-			int i = 0;
-			int j = 0;
 
-			System.out.println(quantityList.get(i).toString());
-			String y = quantityList.get(i).toString();
-			System.out.println(Integer.parseInt(y));
+			// System.out.println(quantityList.get(i).toString());
+			String y = quantityList.get(i++).toString();
+			// System.out.println(Integer.parseInt(y));
 			j = Integer.parseInt(y);
-
-			i++;
 			product.setQuantity(j);
-			// System.out.println(product);
+			System.out.println(product.getFoodName() + product.getQuantity());
 		}
 
 		cart.setTotalAmount(totalAmount);
@@ -463,22 +464,22 @@ public class AnnapurnaController {
 	 */
 
 	@RequestMapping("/cart/passMoneyForm")
-	public String deduct(/* @RequestParam Integer profileId, */ @RequestParam Double amount, Model model) {
-		restTemplate.put("http://annapurna-ewallet/ewallets/"
-				/* "http://10.246.92.254:7979/ewallets/" */ + customUserDetailsService.getCurrentUser().getProfileId()
+	public String deduct(@RequestParam Double amount, Model model) {
+		ResponseEntity<Double> entity = restTemplate.getForEntity("http://annapurna-ewallet/ewallets/"+
+				customUserDetailsService.getCurrentUser().getProfileId(), Double.class);
+		Double currentBalance = entity.getBody();
+		if(currentBalance<amount) {
+			model.addAttribute("msg", "Your Current balance is "+currentBalance.floatValue()+" which is less than amount so go in PROFILE and credit.");
+			model.addAttribute("totalAmount", cart.getTotalAmount());
+			return "passMoney";
+		}
+		restTemplate.put("http://annapurna-ewallet/ewallets/" + customUserDetailsService.getCurrentUser().getProfileId()
 				+ "/pay?currentBalance=" + amount, null);
-		model.addAttribute("message", "money deducted and Order placed Successfully!");
 		String modeOfPayment = "E-Wallet"; // for now
-
 		Integer id = getUniqueId();
-		Order order = new Order(id, modeOfPayment, "pending", cart.getProducts(), cart.getTotalAmount(),
-				cart.getRestaurantName(), address, cart.getCartId());
-		restTemplate.postForEntity("http://annapurna-order/orders" /* "http://10.246.92.254:9090/orders" */, order,
-				Order.class);
-
-		ResponseEntity<List> list1 = restTemplate
-				.getForEntity("http://annapurna-order/orders?cartId=" + cart.getCartId(), List.class);
-
+		Order order = new Order(id, modeOfPayment, "confirm", cart.getProducts(), cart.getTotalAmount(),cart.getRestaurantName(), address, cart.getCartId());
+		restTemplate.postForEntity("http://annapurna-order/orders", order, Order.class);
+		ResponseEntity<List> list1 = restTemplate.getForEntity("http://annapurna-order/orders?cartId=" + cart.getCartId(), List.class);
 		model.addAttribute("list", list1.getBody());
 		System.out.println(list1.getBody());
 		count = 0;

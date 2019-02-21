@@ -61,7 +61,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()//
-                .antMatchers("/", "/foodItems", "/search", "/signup", "/createAccount").permitAll()
+                .antMatchers("/", "/foodItems", "/search", "/signup", "/createAccount", "/searchByCity", "/viewReviews").permitAll()
                // .antMatchers("/search").permitAll().antMatchers("/signup").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/cart/**").hasAuthority("USER").anyRequest()

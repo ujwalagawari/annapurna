@@ -1,60 +1,3 @@
-<%-- <%@ page isELIgnored="false" language="java"
-	contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-<style type="text/css">
-table, th, td {
-	padding: 5px;
-	height: 80px;
-	width: 1100px;
-	font-size: 20px;
-	text-align: center;
-	font-family: inherit;
-}
-th, td {
-	padding: 1px;
-	background-color: lightgray;
-}
-</style>
-</head>
-<body>
-<jsp:include page="menu.jsp" />
-<form action="placeOrder">
-	<table>
-		<tr>
-			<th>CART ID</th>
-			<th>PRODUCTS</th>
-			<th>RESTAURANT NAME</th>
-			<th>TOTAL AMOUNT</th>
-			<th>ADDRESS</th>
-		</tr>
-		<jstl:forEach var="carts" items="${carts}">
-			<tr>
-				<td>${carts.cartId}</td>
-				<td>${carts.products}</td>
-				<td>${carts.restaurantName}</td>
-				<td>${carts.totalAmount}</td>
-				<td>${carts.address}</td>
-			</tr>
-		</jstl:forEach>
-		
-			<tr>
-				<td>${cart.cartId}</td>
-				<td>${cart.products}</td>
-				<td>${cart.restaurantName}</td>
-				<td>${cart.totalAmount}</td>
-				<td>${cart.address}</td>
-			</tr>
-	</table>
-	
-	<input type="submit" value= "Place Order">
-	</form>
-</body>
-</html> --%>
 
 
 
@@ -125,7 +68,7 @@ th, td {
 </style>
 </head>
 <body>
-<jsp:include page="menu.jsp" />
+	<jsp:include page="menu.jsp" />
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<h1>**********CART*********</h1>
@@ -157,20 +100,23 @@ th, td {
 
 
 						<td><input type="number" id="quantity${status.index}"
-							onclick="compute()" name="quantity" min="1"
+							onchange="compute()" name="quantity" min="1"
 							ng-model="quantity${status.index}"
 							ng-init="quantity${status.index}=${products.quantity}" /></td>
+
+
 						<td><input type="number" id="price${status.index}"
 							name="price" value="${products.price}" readonly="readonly"
 							ng-model="price${status.index}"
 							ng-init="price${status.index}=${products.price}" /></td>
 
 						<td><input type="number" id="updatedPrice${status.index}"
-							name="updatedPrice"
+							name="updatedPrice" onvolumechange="compute()"
 							value="{{ quantity${status.index} * price${status.index}}}"
 							ng-model="updatedPrice${status.index}"
 							ng-init="updatedPrice${status.index}={{ quantity${status.index} * price${status.index}}}"
 							readonly="readonly" /></td>
+
 						<td><a
 							href="/cart/removeFoodProduct?id=${status.index}&cartId=${cart.cartId}&foodName=${products.foodName}&restaurantId=${restaurantId}">Remove</a></td>
 
@@ -181,20 +127,20 @@ th, td {
 			<div>
 				<h3>
 					Total Amount: <input type="text" name="amount" id="amount"
-						value="${cart.totalAmount}">
+						value="${cart.totalAmount}" readonly="readonly">
 				</h3>
 
 				<script type="text/javascript">
-function compute(){
-    var x=0; var y = 0; var z = 0;
-    for (i = 0; i < ${fn:length(cart.products)}; i++) {
-        y=document.getElementById("quantity"+i).value;
-        z=document.getElementById("price"+i).value;
-        x = parseInt(x)+parseInt(y*z);
-        document.getElementById("amount").value=x;
-    }
-}
-</script>
+				function compute(){
+   				 var x=0; var y = 0; var z = 0;
+   				 for (i = 0; i < ${fn:length(cart.products)}; i++) {
+     			   y=document.getElementById("quantity"+i).value;
+   				    z=document.getElementById("price"+i).value;
+     				   x = parseInt(x)+parseInt(y*z);
+    				    document.getElementById("amount").value=x;
+	    					}
+						}
+				</script>
 
 			</div>
 
@@ -203,3 +149,21 @@ function compute(){
 	</form>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
