@@ -505,7 +505,8 @@ public class AnnapurnaController {
 	public String getWalletBalance(@RequestParam Integer profileId, Model model) {
 		ResponseEntity<Double> entity = restTemplate.getForEntity("http://annapurna-ewallet/ewallets/" + profileId,
 				Double.class);
-		model.addAttribute("currentBalance", entity.getBody());
+		Double currentAcount = entity.getBody();
+		model.addAttribute("currentBalance", currentAcount.floatValue());
 		model.addAttribute("profile", customUserDetailsService.getCurrentUser());
 		return "EWalletBalance";
 	}
